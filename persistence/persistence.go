@@ -7,16 +7,17 @@ import (
 	"io"
 	"time"
 
-	"github.com/felipeflores/utils/ferrors"
 	"github.com/google/uuid"
 	"github.com/lib/pq"
 	"github.com/pkg/errors"
-	"go.uber.org/zap"
 	sqltrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/database/sql"
+
+	"github.com/felipeflores/utils/ferrors"
+	"github.com/felipeflores/utils/log"
 )
 
 // New creates a new persistence service
-func New(config Config, logger *zap.Logger, serviceName string) (*Service, error) {
+func New(config Config, logger log.Logger, serviceName string) (*Service, error) {
 
 	sqltrace.Register(
 		"pq",
@@ -49,7 +50,7 @@ func New(config Config, logger *zap.Logger, serviceName string) (*Service, error
 func (s *Service) Closer(ioc io.Closer) {
 	err := ioc.Close()
 	if err != nil {
-		s.logger.Error(err.Error())
+		s.logger.Info(err.Error())
 	}
 }
 
@@ -102,7 +103,7 @@ func (s *Service) HandleErrorWithTx(tx *sql.Tx, err error, msg string) error {
 // Service holds the database interface
 type Service struct {
 	DB     *sql.DB
-	logger *zap.Logger
+	logger log.Logger
 }
 
 // Config holds the database configkids
