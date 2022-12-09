@@ -5,11 +5,12 @@ import (
 	"fmt"
 
 	"github.com/golang-migrate/migrate/v4"
-	"go.uber.org/zap"
 
 	// postgres import is needed by migrate to connect to database.
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
+
+	"github.com/felipeflores/utils/log"
 )
 
 var (
@@ -23,7 +24,7 @@ type Config struct {
 	User, Pass   string
 	Database     string
 	Directory    string
-	Logger       *zap.Logger
+	Logger       log.Logger
 	ForceVersion int
 }
 
