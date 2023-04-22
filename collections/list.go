@@ -1,4 +1,4 @@
-package utils
+package collections
 
 func Has[T comparable](o T, list []T) bool {
 	for _, r := range list {
