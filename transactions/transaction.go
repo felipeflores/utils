@@ -3,15 +3,13 @@ package transactions
 import (
 	"context"
 	"database/sql"
-
-	"github.com/felipeflores/utils/persistence"
 )
 
 type Transaction struct {
-	db *persistence.Service
+	db *sql.DB
 }
 
-func NewTransaction(db *persistence.Service) *Transaction {
+func NewTransaction(db *sql.DB) *Transaction {
 	return &Transaction{
 		db: db,
 	}
@@ -19,7 +17,7 @@ func NewTransaction(db *persistence.Service) *Transaction {
 
 func (r *Transaction) ExecTx(ctx context.Context, h func(tx *sql.Tx) error) error {
 
-	tx, err := r.db.DB.BeginTx(
+	tx, err := r.db.BeginTx(
 		ctx,
 		&sql.TxOptions{Isolation: sql.LevelSerializable},
 	)

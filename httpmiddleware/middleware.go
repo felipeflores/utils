@@ -21,12 +21,24 @@ func (m *Middleware) HandlerError(h func(resp http.ResponseWriter, req *http.Req
 		if err != nil {
 			httpStatus := httpStatusCode(err)
 			message := err.Error()
+
 			fmt.Println(httpStatus, message)
 			resp.WriteHeader(httpStatus)
 
 			errorResponse := ErrorResponse{
 				Timestamp: time.Now(),
 				Message:   message,
+			}
+			if httpStatus == 400 {
+				switch e := err.(type) {
+				case badrequest:
+					errorResponse.Fields = make([]Field, 0)
+					for key, v := range e.GetFields() {
+						f := Field{Name: key, Message: v.Error()}
+						errorResponse.Fields = append(errorResponse.Fields, f)
+					}
+
+				}
 			}
 			SendJSON(resp, errorResponse)
 		}
