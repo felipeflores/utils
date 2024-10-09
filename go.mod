@@ -1,11 +1,13 @@
 module github.com/felipeflores/utils
 
-go 1.18
+go 1.20
 
 require (
 	github.com/go-ozzo/ozzo-validation/v4 v4.3.0
+	github.com/gofrs/uuid v4.0.0+incompatible
 	github.com/golang-migrate/migrate/v4 v4.15.2
 	github.com/google/uuid v1.3.0
+	github.com/gorilla/mux v1.7.4
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/lib/pq v1.10.7
 	github.com/pkg/errors v0.9.1

@@ -31,6 +31,10 @@ type (
 	notacceptable interface {
 		NotAcceptable() bool
 	}
+
+	conflict interface {
+		Conflict() bool
+	}
 )
 
 func httpStatusCode(err error) int {
@@ -44,6 +48,8 @@ func httpStatusCode(err error) int {
 		return http.StatusUnauthorized
 	case notacceptable:
 		return http.StatusNotAcceptable
+	case conflict:
+		return http.StatusConflict
 	default:
 		return http.StatusInternalServerError
 	}
